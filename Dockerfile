@@ -26,6 +26,9 @@ RUN mkdir -p /dl
 COPY config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Set up PHP7 as default PHP
+RUN ln -s /usr/bin/php7 /usr/bin/php
+
 # Change working directory
 WORKDIR /dl
 
