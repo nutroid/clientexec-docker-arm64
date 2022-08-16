@@ -22,7 +22,6 @@ RUN cd /tmp \
 
 # Copy configs
 COPY config/nginx.conf /etc/nginx/nginx.conf
-COPY config/fpm-pool.conf /etc/php81/php-fpm.d/www.conf
 COPY config/php.ini /etc/php81/conf.d/custom.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
