@@ -17,7 +17,7 @@ RUN cd /tmp \
     && curl -sSL https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.tar.gz -o ioncube.tar.gz \
     && tar -xf ioncube.tar.gz \
     && mv ioncube/ioncube_loader_lin_8.1.so /usr/lib/php81/modules/ioncube_loader_lin_8.1.so \
-    && echo 'zend_extension = /usr/lib/php81/modules/ioncube_loader_lin_8.1.so' > /etc/php7/conf.d/00-ioncube.ini \
+    && echo 'zend_extension = /usr/lib/php81/modules/ioncube_loader_lin_8.1.so' > /etc/php81/conf.d/00-ioncube.ini \
     && rm ioncube.tar.gz
 
 # Copy configs
