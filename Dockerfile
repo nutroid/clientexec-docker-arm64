@@ -3,6 +3,9 @@ FROM arm64v8/alpine:3.16.2
 LABEL Maintainer="Sayak B <me@sayakb.com>" \
       Description="Clientexec for ARM64 with Nginx based on Alpine Linux"
 
+ARG GID=1000
+ARG UID=1000
+
 # Install packages and remove default server definition
 RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json \
     php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
@@ -26,6 +29,8 @@ RUN mkdir -p /dl
 COPY config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN usermod -u ${UID} nobody && groupmod -g ${GID} nobody
+
 # Set up PHP7 as default PHP
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
@@ -37,8 +42,17 @@ RUN curl -Lo clientexec.zip https://www.clientexec.com/download/latest \
     && unzip clientexec.zip \
     && rm clientexec.zip
 
+RUN chown -R nobody.nobody /htdocs
+
 # Expose the port apache is reachable on
 EXPOSE 80
+
+# Run as non-root user
+RUN chown -R nobody.nobody /dl \
+    && chown -R nobody.nobody /htdocs
+
+# Switch to non-root user
+USER nobody
 
 # Execute scripts on start
 ENTRYPOINT ["/entrypoint.sh"]
