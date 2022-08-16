@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # If dir is empty, copy clientexec application into webroot
-if [ "$(ls -A $DIR)" ]; then
+if [ "$(ls -A /htdocs)" ]; then
     echo "$DIR is not empty, skipping"
 else
     echo "Initializing clientexec"
