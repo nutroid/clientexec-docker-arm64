@@ -3,13 +3,10 @@ FROM arm64v8/alpine:3.16.2
 LABEL Maintainer="Sayak B <me@sayakb.com>" \
       Description="Clientexec for ARM64 with Nginx based on Alpine Linux"
 
-ARG GID=1000
-ARG UID=1000
-
 # Install packages and remove default server definition
-RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt php7-fpm php7-json \
+RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json \
     php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
-    php7-mysqli php7-imap php7-iconv supervisor curl shadow nginx php7-simplexml \
+    php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml \
     --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # Download ioncube
@@ -21,30 +18,16 @@ RUN cd /tmp \
     && rm ioncube.tar.gz
 
 # Copy configs
-COPY config/nginx.conf /etc/nginx/nginx.conf
-COPY config/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
 COPY config/php.ini /etc/php7/conf.d/custom.ini
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create root directory
-RUN mkdir -p /var/www/html
-COPY config/entrypoint.sh /var/www/entrypoint.sh
-RUN chmod +x /var/www/entrypoint.sh
-
-# Change UID and GID of nobody to 1000 to match most host user's IDs
-RUN usermod -u ${UID} nobody && groupmod -g ${GID} nobody
-
-# Run as non-root user
-RUN chown -R nobody.nobody /var/www \
-    && chown -R nobody.nobody /run \
-    && chown -R nobody.nobody /var/lib/nginx \
-    && chown -R nobody.nobody /var/log/nginx
-
-# Switch to non-root user
-USER nobody
+RUN mkdir -p /htdocs
+RUN mkdir -p /dl
+COPY config/entrypoint.sh /htdocs/entrypoint.sh
+RUN chmod +x /htdocs/entrypoint.sh
 
 # Change working directory
-WORKDIR /var/www
+WORKDIR /dl
 
 # Download clientexec
 RUN curl -Lo clientexec.zip https://www.clientexec.com/download/latest \
@@ -55,10 +38,7 @@ RUN curl -Lo clientexec.zip https://www.clientexec.com/download/latest \
 EXPOSE 8080
 
 # Execute scripts on start
-ENTRYPOINT ["/var/www/entrypoint.sh"]
-
-# Let supervisord start nginx & php-fpm
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["/htdocs/entrypoint.sh"]
 
 # Healthcheck
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
+HEALTHCHECK CMD wget -q --no-cache --spider localhost
