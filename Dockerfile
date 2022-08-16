@@ -51,9 +51,6 @@ EXPOSE 80
 RUN chown -R nobody.nobody /dl \
     && chown -R nobody.nobody /htdocs
 
-# Switch to non-root user
-USER nobody
-
 # Execute scripts on start
 ENTRYPOINT ["/entrypoint.sh"]
 
