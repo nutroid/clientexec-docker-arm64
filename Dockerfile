@@ -23,8 +23,8 @@ COPY config/php.ini /etc/php7/conf.d/custom.ini
 # Create root directory
 RUN mkdir -p /htdocs
 RUN mkdir -p /dl
-COPY config/entrypoint.sh /htdocs/entrypoint.sh
-RUN chmod +x /htdocs/entrypoint.sh
+COPY config/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Change working directory
 WORKDIR /dl
@@ -34,11 +34,11 @@ RUN curl -Lo clientexec.zip https://www.clientexec.com/download/latest \
     && unzip clientexec.zip \
     && rm clientexec.zip
 
-# Expose the port nginx is reachable on
-EXPOSE 8080
+# Expose the port apache is reachable on
+EXPOSE 80
 
 # Execute scripts on start
-ENTRYPOINT ["/htdocs/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Healthcheck
 HEALTHCHECK CMD wget -q --no-cache --spider localhost
