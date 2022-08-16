@@ -26,6 +26,7 @@ sed -i 's#^DocumentRoot ".*#DocumentRoot "/htdocs"#g' /etc/apache2/httpd.conf
 sed -i 's#Directory "/var/www/localhost/htdocs"#Directory "/htdocs"#g' /etc/apache2/httpd.conf
 sed -i 's#Options Indexes FollowSymLinks#Options FollowSymLinks#' /etc/apache2/httpd.conf
 sed -i 's#AllowOverride None#AllowOverride All#' /etc/apache2/httpd.conf
+sed -i 's#DirectoryIndex index.html#DirectoryIndex index.html index.php#' /etc/apache2/httpd.conf
 
 # Change TransferLog after ErrorLog
 sed -i 's#^ErrorLog .*#ErrorLog "/dev/stderr"\nTransferLog "/dev/stdout"#g' /etc/apache2/httpd.conf

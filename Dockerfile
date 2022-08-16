@@ -7,7 +7,7 @@ LABEL Maintainer="Sayak B <me@sayakb.com>" \
 RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json \
     php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
     php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+    php7-apache2 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # Download ioncube
 RUN cd /tmp \
