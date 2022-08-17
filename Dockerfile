@@ -29,8 +29,6 @@ RUN mkdir -p /dl
 COPY config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN usermod -u ${UID} nobody && groupmod -g ${GID} nobody
-
 # Set up PHP7 as default PHP
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
@@ -42,14 +40,12 @@ RUN curl -Lo clientexec.zip https://www.clientexec.com/download/latest \
     && unzip clientexec.zip \
     && rm clientexec.zip
 
-RUN chown -R nobody.nobody /htdocs
-
 # Expose the port apache is reachable on
 EXPOSE 80
 
 # Run as non-root user
-RUN chown -R nobody.nobody /dl \
-    && chown -R nobody.nobody /htdocs
+RUN chown -R apache.apache /dl \
+    && chown -R apache.apache /htdocs
 
 # Execute scripts on start
 ENTRYPOINT ["/entrypoint.sh"]
