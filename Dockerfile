@@ -7,7 +7,7 @@ ARG GID=100
 ARG UID=101
 
 # Install packages and remove default server definition
-RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json \
+RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json php7-ctype \
     php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
     php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml wget \
     php7-apache2 php7-session --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
