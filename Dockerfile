@@ -48,7 +48,7 @@ RUN chown -R apache.apache /dl \
     && chown -R apache.apache /htdocs
 
 # Add the cron job
-RUN crontab -l | { cat; echo "* * * * * /usr/bin/php -q /htdocs/cron.php"; } | crontab -
+RUN crontab -l | { cat; echo "* * * * * php -q /htdocs/cron.php"; } | crontab -
 
 # Execute scripts on start
 ENTRYPOINT ["/entrypoint.sh"]
