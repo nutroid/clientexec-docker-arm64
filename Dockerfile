@@ -3,14 +3,14 @@ FROM arm64v8/alpine:3.16.2
 LABEL Maintainer="Sayak B <me@sayakb.com>" \
       Description="Clientexec for ARM64 with Nginx based on Alpine Linux"
 
-ARG GID=1000
-ARG UID=1000
+ARG GID=100
+ARG UID=101
 
 # Install packages and remove default server definition
 RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json \
     php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
-    php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml \
-    php7-apache2 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+    php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml wget \
+    php7-apache2 php7-session --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # Download ioncube
 RUN cd /tmp \
