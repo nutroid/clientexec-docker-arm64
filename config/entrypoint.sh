@@ -46,4 +46,4 @@ sed -i "s#^;date.timezone =\$#date.timezone = \"${TZ}\"#" /etc/php7/php.ini
 
 echo 'Running Apache'
 
-httpd -D FOREGROUND
+cron & httpd -D FOREGROUND
