@@ -1,4 +1,4 @@
-FROM arm64v8/alpine:3.16.2
+FROM arm64v8/alpine:latest
 
 LABEL Maintainer="Sayak B <me@sayakb.com>" \
       Description="Clientexec for ARM64 with Nginx based on Alpine Linux"
