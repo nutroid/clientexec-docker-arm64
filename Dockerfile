@@ -30,7 +30,7 @@ COPY config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Set up PHP8.1 as default PHP
-RUN ln -s /usr/bin/php81 /usr/bin/php
+# RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Change working directory
 WORKDIR /dl
