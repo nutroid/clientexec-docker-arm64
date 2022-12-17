@@ -7,21 +7,21 @@ ARG GID=100
 ARG UID=101
 
 # Install packages and remove default server definition
-RUN apk --no-cache add php7 php7-gd php7-pecl-mcrypt apache2 php7-json php7-ctype \
-    php7-curl php7-openssl php7-mbstring php7-pdo php7-soap php7-pdo_mysql \
-    php7-mysqli php7-imap php7-iconv supervisor curl shadow php7-simplexml wget \
-    php7-apache2 php7-session --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+RUN apk --no-cache add php81 php81-gd php81-pecl-mcrypt apache2 php81-ctype \
+    php81-curl php81-openssl php81-mbstring php81-pdo php81-soap php81-pdo_mysql \
+    php81-mysqli php81-imap php81-iconv supervisor curl shadow php81-simplexml wget \
+    php81-apache2 php81-session --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # Download ioncube
 RUN cd /tmp \
     && curl -sSL https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_aarch64.tar.gz -o ioncube.tar.gz \
     && tar -xf ioncube.tar.gz \
-    && mv ioncube/ioncube_loader_lin_7.4.so /usr/lib/php7/modules/ioncube_loader_lin_7.4.so \
-    && echo 'zend_extension = /usr/lib/php7/modules/ioncube_loader_lin_7.4.so' > /etc/php7/conf.d/00-ioncube.ini \
+    && mv ioncube/ioncube_loader_lin_8.1.so /usr/lib/php81/modules/ioncube_loader_lin_8.1.so \
+    && echo 'zend_extension = /usr/lib/php81/modules/ioncube_loader_lin_8.1.so' > /etc/php81/conf.d/00-ioncube.ini \
     && rm ioncube.tar.gz
 
 # Copy configs
-COPY config/php.ini /etc/php7/conf.d/custom.ini
+COPY config/php.ini /etc/php81/conf.d/custom.ini
 
 # Create root directory
 RUN mkdir -p /htdocs
@@ -29,8 +29,8 @@ RUN mkdir -p /dl
 COPY config/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Set up PHP7 as default PHP
-RUN ln -s /usr/bin/php7 /usr/bin/php
+# Set up PHP8.1 as default PHP
+RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Change working directory
 WORKDIR /dl
